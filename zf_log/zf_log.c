@@ -613,12 +613,13 @@ static INLINE char *put_uint_r(const unsigned v, const unsigned w, const char wc
 	return put_integer_r(v, 0, w, wc, e);
 }
 
-static INLINE char *put_int_r(const int v, const unsigned w, const char wc,
+/*static INLINE char *put_int_r(const int v, const unsigned w, const char wc,
 							  char *const e)
 {
 	return 0 <= v? put_integer_r((unsigned)v, 0, w, wc, e)
 				 : put_integer_r((unsigned)-v, -1, w, wc, e);
 }
+*/
 
 static INLINE char *put_stringn(const char *const s_p, const char *const s_e,
 								char *const p, char *const e)
