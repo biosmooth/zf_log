@@ -5,6 +5,14 @@
 zf_log
 ========
 
+### Fork description
+
+This repo is a slighly modified version of [wonder-mice](https://github.com/wonder-mice) [zf-log](https://github.com/wonder-mice/zf_log) with following changes in logging:
+ * tab as a separator instead of space
+ * removed process id (PID) and TID (thread ID)
+ * added year
+
+
 ### Core logging library for C, Objective-C and C++
 
 Following the [Unix way](https://en.wikipedia.org/wiki/Unix_philosophy), this
