@@ -75,14 +75,17 @@ static void mock_time_callback(struct tm *const tm, unsigned *const msec)
 	tm->tm_hour = 12;
 	tm->tm_mday = 23;
 	tm->tm_mon = 11;
+	tm->tm_year = 16;
 	*msec = 789;
 }
 
+/*
 static void mock_pid_callback(int *const pid, int *const tid)
 {
 	*pid = 9876;
 	*tid = 5432;
 }
+*/
 
 static void mock_buffer_callback(zf_log_message *msg, char *buf)
 {
@@ -196,7 +199,7 @@ int main(int argc, char *argv[])
 {
 	(void)argc; (void)argv;
 	g_time_cb = mock_time_callback;
-	g_pid_cb = mock_pid_callback;
+	//g_pid_cb = mock_pid_callback;
 	g_buffer_cb = mock_buffer_callback;
 	zf_log_set_output_v(ZF_LOG_PUT_STD, 0, mock_output_callback);
 	zf_log_set_tag_prefix("prefix");
