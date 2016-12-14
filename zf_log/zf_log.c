@@ -652,30 +652,26 @@ static void put_ctx(zf_log_message *const msg)
 {
 	struct tm tm;
 	unsigned msec;
-	int pid, tid;
 	g_time_cb(&tm, &msec);
-	g_pid_cb(&pid, &tid);
 
 #if ZF_LOG_OPTIMIZE_SIZE
 	int n;
 	n = snprintf(msg->p, nprintf_size(msg),
-				 "%02u-%02u %02u:%02u:%02u.%03u %5i %5i %c ",
+				 "%02u-%02u-%02u\t%02u:%02u:%02u.%03u\t%c\t",
+				 (unsigned)(tm.tm_year - 100),
 				 (unsigned)(tm.tm_mon + 1), (unsigned)tm.tm_mday,
 				 (unsigned)tm.tm_hour, (unsigned)tm.tm_min, (unsigned)tm.tm_sec,
 				 (unsigned)msec,
-				 pid, tid, (char)lvl_char(msg->lvl));
+				 (char)lvl_char(msg->lvl)
+					);
 	put_nprintf(msg, n);
 #else
 	char buf[64];
 	char *const e = buf + sizeof(buf);
 	char *p = e;
-	*--p = ' ';
+	*--p = '\t';
 	*--p = lvl_char(msg->lvl);
-	*--p = ' ';
-	p = put_int_r(tid, 5, ' ', p);
-	*--p = ' ';
-	p = put_int_r(pid, 5, ' ', p);
-	*--p = ' ';
+	*--p = '\t';
 	p = put_uint_r(msec, 3, '0', p);
 	*--p = '.';
 	p = put_uint_r((unsigned)tm.tm_sec, 2, '0', p);
@@ -683,10 +679,12 @@ static void put_ctx(zf_log_message *const msg)
 	p = put_uint_r((unsigned)tm.tm_min, 2, '0', p);
 	*--p = ':';
 	p = put_uint_r((unsigned)tm.tm_hour, 2, '0', p);
-	*--p = ' ';
+	*--p = '\t';
 	p = put_uint_r((unsigned)tm.tm_mday, 2, '0', p);
 	*--p = '-';
 	p = put_uint_r((unsigned)tm.tm_mon + 1, 2, '0', p);
+	*--p = '-';
+	p = put_uint_r((unsigned)tm.tm_year - 100, 2, '0', p);
 	msg->p = put_stringn(p, e, msg->p, msg->e);
 #endif
 }
@@ -731,7 +729,7 @@ static void put_src(zf_log_message *const msg, const src_location *const src)
 	msg->p = put_string(filename(src->file), msg->p, msg->e);
 	if (msg->p < msg->e) *msg->p++ = ':';
 	msg->p = put_uint(src->line, 0, '\0', msg->p, msg->e);
-	if (msg->p < msg->e) *msg->p++ = ' ';
+	if (msg->p < msg->e) *msg->p++ = '\t';
 #endif
 }
 
@@ -776,7 +774,7 @@ static void output_mem(const zf_log_spec *log, zf_log_message *const msg,
 		}
 		while (hex != ascii_b)
 		{
-			*hex++ = ' ';
+			*hex++ = '\t';
 		}
 		msg->p = ascii;
 		log->output->callback(msg, log->output->arg);
