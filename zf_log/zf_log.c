@@ -240,7 +240,7 @@ typedef struct mem_block
 mem_block;
 
 static void time_callback(struct tm *const tm, unsigned *const usec);
-static void pid_callback(int *const pid, int *const tid);
+//static void pid_callback(int *const pid, int *const tid);
 static void buffer_callback(zf_log_message *msg, char *buf);
 
 STATIC_ASSERT(eol_fits_eol_sz, sizeof(ZF_LOG_EOL) <= ZF_LOG_EOL_SZ);
@@ -253,7 +253,7 @@ static const char c_hex[] = "0123456789abcdef";
 
 static INSTRUMENTED_CONST unsigned g_buf_sz = ZF_LOG_BUF_SZ - ZF_LOG_EOL_SZ;
 static INSTRUMENTED_CONST time_cb g_time_cb = time_callback;
-static INSTRUMENTED_CONST pid_cb g_pid_cb = pid_callback;
+//static INSTRUMENTED_CONST pid_cb g_pid_cb = pid_callback;
 static INSTRUMENTED_CONST buffer_cb g_buffer_cb = buffer_callback;
 
 #if ZF_LOG_USE_ANDROID_LOG
@@ -515,6 +515,7 @@ static void time_callback(struct tm *const tm, unsigned *const msec)
 #endif
 }
 
+/* 
 static void pid_callback(int *const pid, int *const tid)
 {
 #if defined(_WIN32) || defined(_WIN64)
@@ -535,6 +536,7 @@ static void pid_callback(int *const pid, int *const tid)
 	#define Platform not supported
 #endif
 }
+*/
 
 static void buffer_callback(zf_log_message *msg, char *buf)
 {
