@@ -241,7 +241,13 @@
 	#endif
 #endif
 #if ZF_LOG_SRCLOC_LONG == _ZF_LOG_SRCLOC
+	#if defined(_WIN32) || defined(_WIN64)
+		#ifndef __func__
+			#define __func__ __FUNCTION__
+		#endif
+	#endif
 	#define _ZF_LOG_FUNCTION __func__
+
 #else
 	#define _ZF_LOG_FUNCTION 0
 #endif

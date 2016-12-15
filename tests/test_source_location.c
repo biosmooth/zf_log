@@ -5,6 +5,12 @@
 #if defined(_MSC_VER) && !defined(__INTEL_COMPILER) && !defined(snprintf)
 	#define snprintf(buf, len, ...) _snprintf_s(buf, len, _TRUNCATE, __VA_ARGS__)
 #endif
+	
+#if defined(_WIN32) || defined(_WIN64)
+	#ifndef __func__
+		#define __func__ __FUNCTION__
+	#endif
+#endif
 
 const char *const c_filename = "test_source_location.c";
 static char g_srcloc_buf[ZF_LOG_BUF_SZ];
