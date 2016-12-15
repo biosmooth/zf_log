@@ -40,12 +40,12 @@ static void test_function()
 	*expected = 0;
 #endif
 #if ZF_LOG_SRCLOC_SHORT==TEST_SRCLOC
-	snprintf(expected, sizeof(expected), "@%s:%u",
+	snprintf(expected, sizeof(expected), "@%s:%u\t",
 			 c_filename, line);
 #endif
 #if ZF_LOG_SRCLOC_LONG==TEST_SRCLOC
-	snprintf(expected, sizeof(expected), "%s@%s:%u",
-			 __FUNCTION__, c_filename, line);
+	snprintf(expected, sizeof(expected), "%s@%s:%u\t",
+			 __func__, c_filename, line);
 #endif
 	TEST_VERIFY_EQUAL(strcmp(expected, g_srcloc), 0);
 }

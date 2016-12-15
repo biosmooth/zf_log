@@ -241,7 +241,7 @@
 	#endif
 #endif
 #if ZF_LOG_SRCLOC_LONG == _ZF_LOG_SRCLOC
-	#define _ZF_LOG_FUNCTION __FUNCTION__
+	#define _ZF_LOG_FUNCTION __func__
 #else
 	#define _ZF_LOG_FUNCTION 0
 #endif
