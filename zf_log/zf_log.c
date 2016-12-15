@@ -715,7 +715,7 @@ static void put_tag(zf_log_message *const msg, const char *const tag)
 	msg->tag_e = msg->p;
 	if (msg->tag_b != msg->p && msg->e != msg->p)
 	{
-		*msg->p++ = ' ';
+		*msg->p++ = '\t';
 	}
 }
 
@@ -723,7 +723,7 @@ static void put_src(zf_log_message *const msg, const src_location *const src)
 {
 #if ZF_LOG_OPTIMIZE_SIZE
 	int n;
-	n = snprintf(msg->p, nprintf_size(msg), "%s@%s:%u ",
+	n = snprintf(msg->p, nprintf_size(msg), "%s@%s:%u\t",
 				 funcname(src->func), filename(src->file), src->line);
 	put_nprintf(msg, n);
 #else
@@ -777,7 +777,7 @@ static void output_mem(const zf_log_spec *log, zf_log_message *const msg,
 		}
 		while (hex != ascii_b)
 		{
-			*hex++ = '\t';
+			*hex++ = ' ';
 		}
 		msg->p = ascii;
 		log->output->callback(msg, log->output->arg);

@@ -17,16 +17,12 @@ static const char c_test_mem[] =
 	"Here's to the crazy ones.";
 
 static const char *const c_msg_expected_lines[] = {
-	ASSERT_FITS("12-23 12:34:56.789  9876  5432 I prefix.TAG function@file:42 "
-				"Lorem ipsum dolor sit amet.")
+	ASSERT_FITS("16-12-23\t12:34:56.789\tI\tprefix.TAG\tfunction@file:42\t" "Lorem ipsum dolor sit amet.")
 };
 static const char *const c_mem_expected_lines[] = {
-	ASSERT_FITS("12-23 12:34:56.789  9876  5432 I prefix.TAG function@file:42 "
-				"Lorem ipsum dolor sit amet."),
-	ASSERT_FITS("12-23 12:34:56.789  9876  5432 I prefix.TAG function@file:42 "
-				"48657265277320746f20746865206372  Here's to the cr"),
-	ASSERT_FITS("12-23 12:34:56.789  9876  5432 I prefix.TAG function@file:42 "
-				"617a79206f6e65732e00              azy ones.?")
+	ASSERT_FITS("16-12-23\t12:34:56.789\tI\tprefix.TAG\tfunction@file:42\t" "Lorem ipsum dolor sit amet."),
+	ASSERT_FITS("16-12-23\t12:34:56.789\tI\tprefix.TAG\tfunction@file:42\t" "48657265277320746f20746865206372  Here's to the cr"),
+	ASSERT_FITS("16-12-23\t12:34:56.789\tI\tprefix.TAG\tfunction@file:42\t" "617a79206f6e65732e00              azy ones.?")
 };
 
 #define MAX_LINES 4
@@ -75,7 +71,7 @@ static void mock_time_callback(struct tm *const tm, unsigned *const msec)
 	tm->tm_hour = 12;
 	tm->tm_mday = 23;
 	tm->tm_mon = 11;
-	tm->tm_year = 16;
+	tm->tm_year = 116;
 	*msec = 789;
 }
 
