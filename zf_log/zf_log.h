@@ -240,17 +240,14 @@
 		#define _ZF_LOG_SRCLOC ZF_LOG_SRCLOC_LONG
 	#endif
 #endif
-
-#if defined(_WIN32) || defined(_WIN64)
-    #define _ZF_LOG_FUNCTION __FUNCTION__
-#else
-    #define _ZF_LOG_FUNCTION __func__
-#endif
-
 #if ZF_LOG_SRCLOC_LONG == _ZF_LOG_SRCLOC
-    #define _ZF_LOG_SRCFUNCTION _ZF_LOG_FUNCTION
+	#if defined(_WIN32) || defined(_WIN64)
+		#define _ZF_LOG_FUNCTION __FUNCTION__
+	#else
+		#define _ZF_LOG_FUNCTION __func__
+	#endif
 #else
-    #define _ZF_LOG_SRCFUNCTION 0
+	#define _ZF_LOG_FUNCTION 0
 #endif
 
 /* Censoring provides conditional logging of secret information, also known as
