@@ -3,6 +3,7 @@
 #define ZF_LOG_MEM_WIDTH 16
 #define ZF_LOG_INSTRUMENTED 1
 #define ZF_LOG_LEVEL ZF_LOG_INFO
+#define ZF_LOG_FIELD_DELIM ZF_LOG_TAB_DELIM
 #define ZF_LOG_TAG "TAG"
 #include <zf_log.c>
 #include <stddef.h>

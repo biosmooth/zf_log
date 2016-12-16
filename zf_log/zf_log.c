@@ -660,21 +660,24 @@ static void put_ctx(zf_log_message *const msg)
 #if ZF_LOG_OPTIMIZE_SIZE
 	int n;
 	n = snprintf(msg->p, nprintf_size(msg),
-				 "%02u-%02u-%02u\t%02u:%02u:%02u.%03u\t%c\t",
+				 "%02u-%02u-%02u%c%02u:%02u:%02u.%03u%c%c%c",
 				 (unsigned)(tm.tm_year - 100),
 				 (unsigned)(tm.tm_mon + 1), (unsigned)tm.tm_mday,
+				 _ZF_LOG_FIELD_DELIM,
 				 (unsigned)tm.tm_hour, (unsigned)tm.tm_min, (unsigned)tm.tm_sec,
 				 (unsigned)msec,
-				 (char)lvl_char(msg->lvl)
+				 _ZF_LOG_FIELD_DELIM,
+				 (char)lvl_char(msg->lvl),
+				 _ZF_LOG_FIELD_DELIM
 					);
 	put_nprintf(msg, n);
 #else
 	char buf[64];
 	char *const e = buf + sizeof(buf);
 	char *p = e;
-	*--p = '\t';
+	*--p = _ZF_LOG_FIELD_DELIM;
 	*--p = lvl_char(msg->lvl);
-	*--p = '\t';
+	*--p = _ZF_LOG_FIELD_DELIM;
 	p = put_uint_r(msec, 3, '0', p);
 	*--p = '.';
 	p = put_uint_r((unsigned)tm.tm_sec, 2, '0', p);
@@ -682,7 +685,7 @@ static void put_ctx(zf_log_message *const msg)
 	p = put_uint_r((unsigned)tm.tm_min, 2, '0', p);
 	*--p = ':';
 	p = put_uint_r((unsigned)tm.tm_hour, 2, '0', p);
-	*--p = '\t';
+	*--p = _ZF_LOG_FIELD_DELIM;
 	p = put_uint_r((unsigned)tm.tm_mday, 2, '0', p);
 	*--p = '-';
 	p = put_uint_r((unsigned)tm.tm_mon + 1, 2, '0', p);
@@ -715,7 +718,7 @@ static void put_tag(zf_log_message *const msg, const char *const tag)
 	msg->tag_e = msg->p;
 	if (msg->tag_b != msg->p && msg->e != msg->p)
 	{
-		*msg->p++ = '\t';
+		*msg->p++ = _ZF_LOG_FIELD_DELIM;
 	}
 }
 
@@ -723,8 +726,8 @@ static void put_src(zf_log_message *const msg, const src_location *const src)
 {
 #if ZF_LOG_OPTIMIZE_SIZE
 	int n;
-	n = snprintf(msg->p, nprintf_size(msg), "%s@%s:%u\t",
-				 funcname(src->func), filename(src->file), src->line);
+	n = snprintf(msg->p, nprintf_size(msg), "%s@%s:%u%c",
+				 funcname(src->func), filename(src->file), src->line,_ZF_LOG_FIELD_DELIM);
 	put_nprintf(msg, n);
 #else
 	msg->p = put_string(funcname(src->func), msg->p, msg->e);
@@ -732,7 +735,7 @@ static void put_src(zf_log_message *const msg, const src_location *const src)
 	msg->p = put_string(filename(src->file), msg->p, msg->e);
 	if (msg->p < msg->e) *msg->p++ = ':';
 	msg->p = put_uint(src->line, 0, '\0', msg->p, msg->e);
-	if (msg->p < msg->e) *msg->p++ = '\t';
+	if (msg->p < msg->e) *msg->p++ = _ZF_LOG_FIELD_DELIM;
 #endif
 }
 
