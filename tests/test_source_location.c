@@ -6,11 +6,11 @@
 	#define snprintf(buf, len, ...) _snprintf_s(buf, len, _TRUNCATE, __VA_ARGS__)
 #endif
 	
-#if defined(_WIN32) || defined(_WIN64)
-	#ifndef __func__
-		#define __func__ __FUNCTION__
-	#endif
-#endif
+//#if defined(_WIN32) || defined(_WIN64)
+//	#ifndef __func__
+//		#define __func__ __FUNCTION__
+//	#endif
+//#endif
 
 const char *const c_filename = "test_source_location.c";
 static char g_srcloc_buf[ZF_LOG_BUF_SZ];
@@ -50,8 +50,7 @@ static void test_function()
 			 c_filename, line);
 #endif
 #if ZF_LOG_SRCLOC_LONG==TEST_SRCLOC
-	snprintf(expected, sizeof(expected), "%s@%s:%u\t",
-			 __func__, c_filename, line);
+	snprintf(expected, sizeof(expected), "%s@%s:%u\t",_ZF_LOG_FUNCTION, c_filename, line);
 #endif
 	TEST_VERIFY_EQUAL(strcmp(expected, g_srcloc), 0);
 }
