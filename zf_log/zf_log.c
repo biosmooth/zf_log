@@ -220,6 +220,35 @@
 	#endif
 #endif
 
+/* custom field delimiter
+ * "Current" field delimiter is a compile time check and has no runtime overhead.
+ * Current log level is configured per compilation module (.c/.cpp/.m file) by
+ * defining ZF_LOG_DEF_FIELD_DELIM or ZF_LOG_FIELD_DELIM. ZF_LOG_FIELD_DELIM has higer priority
+ * and when defined overrides value provided by ZF_LOG_DEF_FIELD_DELIM.
+ *
+ * Common practice is to define default current field_delim with ZF_LOG_DEF_FIELD_DELIM
+ * in build script (e.g. Makefile, CMakeLists.txt, gyp, etc.) for the entire
+ * project or target:
+ *
+ *   CC_ARGS := -DZF_LOG_DEF_FIELD_DELIM='\t'
+ *
+ * And when necessary to override it with ZF_LOG_FIELD_DELIM in .c/.cpp/.m files
+ * before including zf_log.h:
+ *
+ *   #define ZF_LOG_FIELD_DELIM ' '
+ *   #include <zf_log.c>
+ *
+ * If both ZF_LOG_DEF_FIELD_DELIM and ZF_LOG_FIELD_DELIM are undefined, then tab
+ * will be used .
+ */
+#if defined(ZF_LOG_FIELD_DELIM)
+	#define _ZF_LOG_FIELD_DELIM ZF_LOG_FIELD_DELIM
+#elif defined(ZF_LOG_DEF_FIELD_DELIM)
+	#define _ZF_LOG_FIELD_DELIM ZF_LOG_DEF_FIELD_DELIM
+#else 
+	#define _ZF_LOG_FIELD_DELIM '\t'
+#endif
+
 typedef void (*time_cb)(struct tm *const tm, unsigned *const usec);
 typedef void (*pid_cb)(int *const pid, int *const tid);
 typedef void (*buffer_cb)(zf_log_message *msg, char *buf);

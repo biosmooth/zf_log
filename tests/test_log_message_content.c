@@ -3,7 +3,7 @@
 #define ZF_LOG_MEM_WIDTH 16
 #define ZF_LOG_INSTRUMENTED 1
 #define ZF_LOG_LEVEL ZF_LOG_INFO
-#define ZF_LOG_FIELD_DELIM ZF_LOG_TAB_DELIM
+#define ZF_LOG_FIELD_DELIM ' '
 #define ZF_LOG_TAG "TAG"
 #include <zf_log.c>
 #include <stddef.h>
@@ -18,12 +18,12 @@ static const char c_test_mem[] =
 	"Here's to the crazy ones.";
 
 static const char *const c_msg_expected_lines[] = {
-	ASSERT_FITS("16-12-23\t12:34:56.789\tI\tprefix.TAG\tfunction@file:42\t" "Lorem ipsum dolor sit amet.")
+	ASSERT_FITS("16-12-23 12:34:56.789 I prefix.TAG function@file:42 " "Lorem ipsum dolor sit amet.")
 };
 static const char *const c_mem_expected_lines[] = {
-	ASSERT_FITS("16-12-23\t12:34:56.789\tI\tprefix.TAG\tfunction@file:42\t" "Lorem ipsum dolor sit amet."),
-	ASSERT_FITS("16-12-23\t12:34:56.789\tI\tprefix.TAG\tfunction@file:42\t" "48657265277320746f20746865206372  Here's to the cr"),
-	ASSERT_FITS("16-12-23\t12:34:56.789\tI\tprefix.TAG\tfunction@file:42\t" "617a79206f6e65732e00              azy ones.?")
+	ASSERT_FITS("16-12-23 12:34:56.789 I prefix.TAG function@file:42 " "Lorem ipsum dolor sit amet."),
+	ASSERT_FITS("16-12-23 12:34:56.789 I prefix.TAG function@file:42 " "48657265277320746f20746865206372  Here's to the cr"),
+	ASSERT_FITS("16-12-23 12:34:56.789 I prefix.TAG function@file:42 " "617a79206f6e65732e00              azy ones.?")
 };
 
 #define MAX_LINES 4
