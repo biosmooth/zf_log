@@ -7,7 +7,7 @@ zf_log
 ### Fork description
 
 This repo is a slighly modified version of [wonder-mice](https://github.com/wonder-mice) [zf-log](https://github.com/wonder-mice/zf_log) with following changes in logging:
- * tab as a separator instead of space
+ * user-defined delimiter (during compilation; tab as a default settings)
  * removed process id (PID) and TID (thread ID)
  * added year
 
